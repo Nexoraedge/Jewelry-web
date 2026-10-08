@@ -353,18 +353,17 @@ export default function Home() {
                 </clipPath>
               </defs>
 
-              {/* Image wrapped in a foreignObject to use Next.js Image */}
-              <foreignObject x="0" y="0" width="100" height="100" clipPath="url(#jelly-clip)">
-                <div className="w-full h-full bg-white/80 backdrop-blur-md relative">
-                  <Image
-                    src="/assests/ring.jpg"
-                    alt="Emerald Gold Ring"
-                    fill
-                    className="object-cover"
-                    sizes="(max-width: 768px) 140px, 280px"
-                  />
-                </div>
-              </foreignObject>
+              {/* Image inside SVG to bypass Safari's foreignObject clipPath bug */}
+              <g clipPath="url(#jelly-clip)">
+                <image
+                  href="/assests/ring.jpg"
+                  x="0"
+                  y="0"
+                  width="100"
+                  height="100"
+                  preserveAspectRatio="xMidYMid slice"
+                />
+              </g>
 
               {/* Thick White Border mimicking the shape exactly */}
               <path
