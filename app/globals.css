@@ -1,26 +1,61 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  --color-background: #f5f1ea;
+  --color-foreground: #1a1a1a;
+  
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  --font-serif: var(--font-playfair), ui-serif, Georgia, Cambria, "Times New Roman", Times, serif;
+  --font-script: var(--font-italianno), cursive;
+  
+  --color-brand: #d1b482;
+  --color-dark: #222222;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--color-background);
+  color: var(--color-foreground);
+}
+
+/* Animated Hamburger Menu (from Uiverse.io) */
+.hamburger {
+  height: 28px;
+  width: 28px;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.hamburger svg {
+  width: 100%;
+  height: 100%;
+}
+.hamburger .line {
+  transition: 0.5s;
+  stroke-width: 4px;
+  stroke: currentColor;
+}
+.hamburger .lineTop {
+  stroke-dasharray: 40 40;
+  stroke-dashoffset: 25;
+}
+.hamburger .lineBottom {
+  stroke-dasharray: 40 40;
+  stroke-dashoffset: 60;
+}
+.hamburger .lineMid {
+  stroke-dasharray: 40 40;
+}
+.hamburger input:checked + svg .lineTop {
+  stroke-dashoffset: 0;
+  transform-origin: left;
+  transform: rotateZ(45deg) translate(-7px, -5px);
+}
+.hamburger input:checked + svg .lineMid {
+  stroke-dashoffset: 40;
+}
+.hamburger input:checked + svg .lineBottom {
+  stroke-dashoffset: 0;
+  transform-origin: left;
+  transform: rotateZ(-45deg) translate(-5px, 5px);
 }
