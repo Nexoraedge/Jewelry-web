@@ -19,7 +19,7 @@ const italianno = Italianno({
 });
 
 export const metadata: Metadata = {
-  title: "AURA JEWELS",
+  title: "Dear Darling",
   description: "Wear the Light - Handcrafted heirloom jewelry",
 };
 

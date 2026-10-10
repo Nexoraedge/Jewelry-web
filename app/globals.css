@@ -1,15 +1,15 @@
 @import "tailwindcss";
 
 @theme inline {
-  --color-background: #f5f1ea;
-  --color-foreground: #1a1a1a;
+  --color-background: #f4efe9;
+  --color-foreground: #3c2415;
   
   --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
   --font-serif: var(--font-playfair), ui-serif, Georgia, Cambria, "Times New Roman", Times, serif;
   --font-script: var(--font-italianno), cursive;
   
-  --color-brand: #d1b482;
-  --color-dark: #222222;
+  --color-brand: #c89b4f;
+  --color-dark: #2a1810;
 }
 
 body {
