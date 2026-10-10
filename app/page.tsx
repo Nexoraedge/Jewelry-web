@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
@@ -11,6 +11,7 @@ gsap.registerPlugin(ScrollTrigger);
 
 export default function Home() {
   const container = useRef<HTMLDivElement>(null);
+  const [isNavOpen, setIsNavOpen] = useState(false);
 
   useGSAP(() => {
     // Initial entrance animations
@@ -269,7 +270,7 @@ export default function Home() {
 
 
         {/* Navigation */}
-        <nav className="absolute top-0 left-0 w-full flex items-center justify-between px-6 py-8 md:px-12 z-50">
+        <nav className={`absolute top-0 left-0 w-full flex items-center justify-between px-6 py-8 md:px-12 z-[110] transition-colors duration-500 ${isNavOpen ? 'text-[#f4efe9]' : 'text-foreground'}`}>
           <div className="hidden md:flex items-center space-x-8 text-sm font-sans tracking-wide uppercase nav-item">
             <a href="#" className="hover:text-brand transition-colors">Our Story</a>
             <a href="#" className="hover:text-brand transition-colors">Blogs</a>
@@ -277,7 +278,12 @@ export default function Home() {
 
           <div className="md:hidden nav-item text-foreground transition-colors">
             <div className="hamburger">
-              <input className="checkbox peer opacity-0 w-full h-full absolute inset-0 cursor-pointer z-20 appearance-none m-0" type="checkbox" />
+              <input 
+                className="checkbox peer opacity-0 w-full h-full absolute inset-0 cursor-pointer z-[101] appearance-none m-0" 
+                type="checkbox" 
+                checked={isNavOpen}
+                onChange={(e) => setIsNavOpen(e.target.checked)}
+              />
               <svg fill="none" viewBox="0 0 50 50" className="w-8 h-8 pointer-events-none peer-checked:[&_.line]:stroke-[#d1b482]">
                 <path className="lineTop line" strokeLinecap="round" d="M6 11L44 11"></path>
                 <path className="lineMid line" strokeLinecap="round" d="M6 24H43"></path>
@@ -494,9 +500,6 @@ export default function Home() {
                 <stop offset="85%" stopColor="#e8c96e" />
                 <stop offset="100%" stopColor="#7a5010" />
               </linearGradient>
-              <filter id="ribbon-shadow-new">
-                <feDropShadow dx="2" dy="6" stdDeviation="5" floodColor="#5a3800" floodOpacity="0.3" />
-              </filter>
             </defs>
 
             {/* Shadow copy (offset slightly) */}
@@ -529,7 +532,6 @@ export default function Home() {
               stroke="url(#gold-3d-ribbon)"
               strokeWidth="24"
               strokeLinecap="round"
-              filter="url(#ribbon-shadow-new)"
               className="gold-ribbon-path"
             />
           </svg>
@@ -634,7 +636,6 @@ export default function Home() {
               stroke="url(#gold-3d-ribbon)"
               strokeWidth="3"
               strokeLinecap="round"
-              filter="url(#ribbon-shadow-new)"
               className="gold-ribbon-path"
             />
           </svg>
@@ -703,6 +704,52 @@ export default function Home() {
         ❌❌❌❌❌❌❌❌❌❌❌❌❌❌❌❌❌❌❌❌❌❌❌❌❌❌❌❌❌
 
       </section>
+
+      {/* FULLSCREEN NAVIGATION OVERLAY */}
+      <div 
+        className={`fixed inset-0 z-[100] bg-[#2f1c13] text-[#f4efe9] transition-all duration-700 ease-[cubic-bezier(0.76,0,0.24,1)] ${isNavOpen ? 'translate-y-0 opacity-100 pointer-events-auto' : '-translate-y-[110%] opacity-0 pointer-events-none'}`}
+      >
+        <div className="absolute inset-0 p-6 md:p-12 flex flex-col h-full pt-28">
+          
+          {/* Huge Faded Background Text */}
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-[20vw] font-black text-white/[0.03] tracking-tighter select-none pointer-events-none whitespace-nowrap">
+            DARLING
+          </div>
+
+          {/* Menu Items (Vertical Stack) */}
+          <div className="flex-1 flex flex-col justify-center items-start space-y-4 md:space-y-6 lg:space-y-8 pl-0 sm:pl-4 md:pl-20 relative z-10 w-full overflow-hidden">
+            {['HOME', 'OUR STORY', 'COLLECTIONS', 'EVERYDAY WEAR', 'JOURNAL', 'CONTACT US'].map((item) => (
+              <a key={item} href="#" className="group flex flex-wrap sm:flex-nowrap items-center gap-3 sm:gap-4 text-4xl sm:text-5xl md:text-7xl lg:text-[5.5rem] font-serif uppercase hover:text-[#c46e3f] transition-colors leading-none tracking-tight">
+                <span>{item}</span>
+                {item === 'COLLECTIONS' && (
+                  <span className="text-[10px] sm:text-xs md:text-sm bg-[#c46e3f] text-white px-2 py-1 sm:px-3 sm:py-1 rounded-full font-sans tracking-widest sm:translate-y-[-10px] self-start sm:self-auto mt-1 sm:mt-0">
+                    NEW
+                  </span>
+                )}
+              </a>
+            ))}
+          </div>
+
+          {/* Footer Line */}
+          <div className="mt-auto border-t border-white/10 pt-6 flex flex-col md:flex-row justify-between items-start md:items-end gap-4 md:gap-0 z-10">
+             <div className="flex gap-4">
+                {/* Social icons */}
+                <a href="#" className="w-10 h-10 rounded-full border border-white/20 flex items-center justify-center hover:bg-white/10 transition-colors text-white/70 hover:text-white">
+                  <span className="sr-only">Instagram</span>
+                  <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
+                </a>
+                <a href="#" className="w-10 h-10 rounded-full border border-white/20 flex items-center justify-center hover:bg-white/10 transition-colors text-white/70 hover:text-white">
+                   <span className="sr-only">Facebook</span>
+                   <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.469h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.469h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+                </a>
+             </div>
+             <div className="text-left md:text-right mt-6 md:mt-0">
+                <p className="text-[#c46e3f] font-sans font-bold text-base md:text-xl tracking-widest uppercase">Wear the Light</p>
+                <p className="text-white/50 font-serif italic mt-1 text-sm md:text-base">Handcrafted heirloom jewelry made with love.</p>
+             </div>
+          </div>
+        </div>
+      </div>
 
     </div>
   );
